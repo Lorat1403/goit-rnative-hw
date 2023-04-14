@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -8,32 +8,51 @@ import {
   ImageBackground,
 } from "react-native";
 
+import background from "../assets/images/background.png";
+
+const initialState = {
+  email: "",
+  password: "",
+};
+
 export default function LoginScreen() {
+  const [state, setState] = useState(initialState);
+
   return (
-    <View style={styles.form}>
-      <ImageBackground
-        style={styles.image}
-        source={require("../assets/images/Photo-BG.png")}
-      >
-        <Text style={styles.screenTitle}>Войти</Text>
-        <View>
-          <TextInput
-            style={styles.input}
-            placeholder="Адрес электронной почты"
-          />
+    <View style={styles.container}>
+      <ImageBackground style={styles.image} source={background}>
+        <View style={styles.form}>
+          <Text style={styles.screenTitle}>Войти</Text>
+          <View>
+            <TextInput
+              style={styles.input}
+              placeholder="Адрес электронной почты"
+              value={state.email}
+            />
+          </View>
+          <View>
+            <TextInput
+              style={styles.input}
+              placeholder="Пароль"
+              value={state.password}
+            />
+          </View>
+          <TouchableOpacity activeOpacity={0.8} style={styles.btn}>
+            <Text style={styles.btnTitle}>Войти</Text>
+          </TouchableOpacity>
         </View>
-        <View>
-          <TextInput style={styles.input} placeholder="Пароль" />
-        </View>
-        <TouchableOpacity activeOpacity={0.8} style={styles.btn}>
-          <Text style={styles.btnTitle}>Войти</Text>
-        </TouchableOpacity>
       </ImageBackground>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#6495ed",
+    // alignItems: "center",
+    // justifyContent: "center",
+  },
   form: {
     flex: 1,
     backgroundColor: "#f5fffa",

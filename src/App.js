@@ -1,8 +1,28 @@
+import React, { useState } from "react";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, ImageBackground } from "react-native";
+import { View, StyleSheet, Text, ImageBackground } from "react-native";
+import * as Font from "expo-font";
+import { AppLoading } from "expo";
 import backgound from "./assets/images/background.png";
 
+const loadApp = async () => {
+  await Font.loadAsync({
+    "Roboto-Regular": require("./assets/fonts/Roboto-Regular.ttf"),
+  });
+};
+
 export default function App() {
+  const [isReady, setIsReady] = useState(false);
+
+  if (isReady) {
+    return (
+      <AppLoading
+        startAsync={loadApp}
+        onFinish={() => setIsReady(true)}
+        onError={console.warn}
+      />
+    );
+  }
   return (
     <View style={styles.container}>
       <ImageBackground style={styles.image} source={backgound}>
@@ -29,5 +49,6 @@ const styles = StyleSheet.create({
   text: {
     color: "#f5fffa",
     fontSize: 30,
+    fontFamily: "Roboto-Regular",
   },
 });
