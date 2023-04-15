@@ -1,31 +1,32 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { StatusBar } from "expo-status-bar";
 import { View, StyleSheet, Text, ImageBackground } from "react-native";
 import * as Font from "expo-font";
-import { AppLoading } from "expo";
-import backgound from "./assets/images/background.png";
-
-const loadApp = async () => {
-  await Font.loadAsync({
-    "Roboto-Regular": require("./assets/fonts/Roboto-Regular.ttf"),
-  });
-};
+import background from "./assets/images/background.png";
 
 export default function App() {
   const [isReady, setIsReady] = useState(false);
 
-  if (isReady) {
-    return (
-      <AppLoading
-        startAsync={loadApp}
-        onFinish={() => setIsReady(true)}
-        onError={console.warn}
-      />
-    );
-  }
+  useEffect(() => {
+    async function prepare() {
+      try {
+        await Font.loadAsync({
+          "Roboto-Bold": require("./assets/fonts/Roboto/Roboto-Bold.ttf"),
+          "Roboto-Regular": require("./assets/fonts/Roboto/Roboto-Regular.ttf"),
+          "Roboto-BlackItalic": require("./assets/fonts/Roboto/Roboto-BlackItalic.ttf"),
+        });
+      } catch (error) {
+        console.warn(error);
+      } finally {
+        setIsReady(true);
+      }
+    }
+    prepare();
+  }, []);
+
   return (
     <View style={styles.container}>
-      <ImageBackground style={styles.image} source={backgound}>
+      <ImageBackground style={styles.image} source={background}>
         <Text style={styles.text}>App is working!</Text>
         <StatusBar style="auto" />
       </ImageBackground>
@@ -37,8 +38,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#6495ed",
-    // alignItems: "center",
-    // justifyContent: "center",
   },
   image: {
     flex: 1,
@@ -48,7 +47,7 @@ const styles = StyleSheet.create({
   },
   text: {
     color: "#f5fffa",
-    fontSize: 30,
-    fontFamily: "Roboto-Regular",
+    fontSize: 40,
+    fontFamily: "Roboto-BlackItalic",
   },
 });
